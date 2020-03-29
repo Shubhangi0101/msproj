@@ -1,10 +1,83 @@
+<!Doctype: HTML w/ Processing>
 
 <html>
+
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Processing Demo</title>
+      <script type="text/javascript" src="js/processing.js"></script>
+  </head>
+  
   <body>
-    <h1>This is Subdomain</h1>
-    <style>
-     body { background-color:blue;
-      color:#FFF;}
-    </style>
+    <h1>Granada High Tutorial</h1>
+    <p>Processing demo</p>
+    
+    <script type="text/processing">
+    
+      //based on code from Keith Peters.
+//a two-segmented arm
+
+int angle = 45;
+float[] x = new float[20];
+float[] y = new float[20];
+float segLength = 30;
+color c;
+
+
+void setup() {
+  size(800, 600);
+  background(255);
+  strokeWeight(1);
+  
+}
+
+void draw() {
+  //if (mousePressed == true) {
+  //  angle += 5;
+  //  float val = cos(radians(angle)) * 36.0;
+  //  for (int i = 0; i < 360; i += 20) {
+  //    float xoff = cos(radians(i)) * val;
+  //    float yoff = sin(radians(i)) * val;
+  //    random(30);
+  //    noFill();
+  //    stroke(255,100);
+  //    ellipse(mouseX + xoff, mouseY + yoff, val, val);
+  //    //fill(255);
+  //    //line(mouseX + xoff, 0, mouseY, mouseX);
+  //  }
+  //}
+  
+  if (mousePressed == true){
+  stroke(200, 50, 50);
+  dragSegment(0, mouseX, mouseY);
+  dragSegment(1, x[0], y[0]);
+  }
+}
+
+void dragSegment(int i, float xin, float yin) {
+  float dx = xin - x[i];
+  float dy = yin - y[i];
+  float angle = atan2(dy, dx);  
+  x[i] = xin - cos(angle) * segLength;
+  y[i] = yin - sin(angle) * segLength;
+  segment(x[i], y[i], angle);
+}
+
+void segment(float x, float y, float a) {
+  pushMatrix();
+  translate(x, y);
+  rotate(a);
+  line(0, 0, segLength, 0);
+  popMatrix();
+}
+
+void keyPressed(){
+  saveFrame("drawing####.png");
+}
+
+    </script>
+    <canvas id="sketch" style="border: 1px solid black;"></canvas>
+    
   </body>
+  
 </html>
